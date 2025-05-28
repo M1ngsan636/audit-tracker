@@ -62,9 +62,6 @@ export default function LoginPage() {
           Login
         </button>
       </form>
-
-      {/* ✅ Tailwind test */}
-      <div className="text-red-500 mt-4">TEST</div>
     </div>
   );
 }
