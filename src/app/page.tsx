@@ -1,71 +1,53 @@
-"use client";
+"use client"; // ✅ Must be at the top
 
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 
-
 export default function Home() {
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const orbs = document.querySelectorAll(".orb");
+    const handleMouseMove = (e: MouseEvent) => {
+      const orbs = document.querySelectorAll('.orb');
       orbs.forEach((orb) => {
-        const speed = orb.getAttribute("data-speed");
+        const speed = parseFloat(orb.getAttribute('data-speed') || '1');
         const x = (window.innerWidth - e.pageX * speed) / 100;
         const y = (window.innerHeight - e.pageY * speed) / 100;
-        orb.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        (orb as HTMLElement).style.transform = `translateX(${x}px) translateY(${y}px)`;
       });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center p-8 bg-gray-900 overflow-hidden">
-      {/* Logo at top center */}
-      <div className="w-full flex justify-center mb-8 pt-6">
-        <Image
-          src="/logo.png"   // path from public folder
-          alt="Audit Tracker Logo"
-          width={120}       // adjust size as needed
-          height={120}
-          priority
-        />
-      </div>
-
-      {/* Floating orbs background */}
-      <div
-        className="orb fixed w-80 h-80 rounded-full bg-blue-500 opacity-10 blur-3xl -left-40 -top-40"
-        data-speed="5"
-      ></div>
-      <div
-        className="orb fixed w-96 h-96 rounded-full bg-purple-500 opacity-10 blur-3xl -right-60 bottom-20"
-        data-speed="8"
-      ></div>
-      <div
-        className="orb fixed w-64 h-64 rounded-full bg-cyan-500 opacity-10 blur-3xl left-1/4 bottom-1/3"
-        data-speed="3"
-      ></div>
+      {/* Floating orbs */}
+      <div className="orb fixed w-80 h-80 rounded-full bg-blue-500 opacity-10 blur-3xl -left-40 -top-40" data-speed="5" />
+      <div className="orb fixed w-96 h-96 rounded-full bg-purple-500 opacity-10 blur-3xl -right-60 bottom-20" data-speed="8" />
+      <div className="orb fixed w-64 h-64 rounded-full bg-cyan-500 opacity-10 blur-3xl left-1/4 bottom-1/3" data-speed="3" />
 
       {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
+          backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
         }}
-      ></div>
+      />
 
-      {/* Main content */}
+      {/* Logo */}
+      <div className="mb-4">
+        <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
+      </div>
+
+      {/* Card Content */}
       <div className="relative bg-gray-800 rounded-2xl p-10 text-center w-full max-w-md border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl overflow-hidden">
-        {/* Animated border */}
         <div
           className="absolute inset-0 border-2 border-transparent rounded-2xl animate-border-pulse pointer-events-none"
           style={{
-            animation: "borderPulse 4s infinite",
-            boxShadow: "0 0 10px rgba(59, 130, 246, 0.5)",
+            animation: 'borderPulse 4s infinite',
+            boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)',
           }}
         ></div>
 
@@ -86,11 +68,11 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Glowing dots decoration */}
-      <div className="absolute bottom-10 left-10 w-2 h-2 rounded-full bg-cyan-400 shadow-glow"></div>
-      <div className="absolute top-10 right-10 w-3 h-3 rounded-full bg-blue-400 shadow-glow"></div>
+      {/* Glowing dots */}
+      <div className="absolute bottom-10 left-10 w-2 h-2 rounded-full bg-cyan-400 shadow-glow" />
+      <div className="absolute top-10 right-10 w-3 h-3 rounded-full bg-blue-400 shadow-glow" />
 
-      {/* CSS for animations */}
+      {/* Animation styles */}
       <style jsx global>{`
         @keyframes borderPulse {
           0% {
@@ -106,6 +88,7 @@ export default function Home() {
             border-color: rgba(59, 130, 246, 0.1);
           }
         }
+
         @keyframes ping-slow {
           0% {
             transform: scale(0.95);
@@ -116,9 +99,11 @@ export default function Home() {
             opacity: 0;
           }
         }
+
         .animate-ping-slow {
           animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
+
         .shadow-glow {
           filter: drop-shadow(0 0 6px currentColor);
         }
