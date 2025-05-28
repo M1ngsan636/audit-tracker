@@ -189,6 +189,7 @@ const RecentActivity = () => {
     { id: 1, action: "Completed audit", target: "Project Phoenix", time: "2 hours ago" },
     { id: 2, action: "Assigned to", target: "Project Atlas", time: "1 day ago" },
     { id: 3, action: "Submitted report", target: "Project Hermes", time: "2 days ago" },
+	{ id: 4, action: "Submitted report", target: "Project Roro Jonggrang", time: "7 days ago" },
   ];
 
   return (
