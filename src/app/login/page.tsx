@@ -40,7 +40,7 @@ export default function LoginPage() {
         </div>
         
         <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-8 tracking-tight">
-          AUDIT TRACKER LOGIN
+          AUDITOR LOGIN
         </h2>
 
         <div className="mb-6">
