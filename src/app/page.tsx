@@ -56,7 +56,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg text-gray-300 mb-8 font-light tracking-wider">
-          WELCOME TO THE CORPORATE QUALITY ASSURANCE AUDIT TRACKER
+          WELCOME CORPORATE QUALITY ASSURANCE AUDITOR
         </p>
 
         <Link href="/login">
