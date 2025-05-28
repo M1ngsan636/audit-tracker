@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 export default function ProfilePage() {
   const [user, setUser] = useState({
-    name: "Alex Johnson",
-    email: "alex.johnson@example.com",
-    role: "Senior QA Auditor",
+    name: "Suhardiman",
+    email: "suhardiman@airasia.com",
+    role: "QA Auditor",
     department: "Quality Assurance",
     joinDate: "2021-03-15",
     avatar: "/default-avatar.png",
