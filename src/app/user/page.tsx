@@ -126,9 +126,25 @@ const UserProfileCard = ({ user }) => (
       </div>
     </div>
     
-    <button className="mt-6 w-full py-2 rounded-lg border border-cyan-400 text-cyan-400 hover:bg-cyan-900 transition-colors">
-      Edit Profile
-    </button>
+<Link 
+  href="/user/profile"
+  className="mt-6 w-full py-2 rounded-lg border border-cyan-400 text-cyan-400 hover:bg-cyan-900 transition-colors flex items-center justify-center"
+>
+  <span>VIEW PROFILE</span>
+  <svg 
+    className="w-4 h-4 ml-2" 
+    fill="none" 
+    stroke="currentColor" 
+    viewBox="0 0 24 24"
+  >
+    <path 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      strokeWidth={2} 
+      d="M9 5l7 7-7 7" 
+    />
+  </svg>
+</Link>
   </div>
 );
 
