@@ -89,7 +89,7 @@ const Header = () => (
       DASHBOARD
     </h1>
     <nav className="flex space-x-4">
-      <Link href="/" className="text-gray-300 hover:text-cyan-400 transition-colors">
+      <Link href="/User" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Home
       </Link>
       <Link href="/settings" className="text-gray-300 hover:text-cyan-400 transition-colors">
