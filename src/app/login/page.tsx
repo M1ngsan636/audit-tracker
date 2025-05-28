@@ -56,5 +56,6 @@ export default function LoginPage() {
         </button>
       </form>
     </div>
+	<div className="text-red-500">TEST</div>
   );
 }
