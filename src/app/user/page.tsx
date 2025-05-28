@@ -8,21 +8,27 @@ export default function UserPage() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch('/api/user');
-      const data = await response.json();
-      setUserData(data);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    // Simulate API fetch
+    const fetchData = async () => {
+      setTimeout(() => {
+        setUserData({
+          name: "Suhardiman",
+          email: "suhardiman@airasia.com",
+          role: "QA Auditor",
+          lastLogin: "2023-11-15T14:30:00Z",
+          auditStats: {
+            completed: 12,
+            pending: 5,
+            overdue: 2
+          }
+        });
+        setLoading(false);
+      }, 1000);
+    };
 
-  fetchUserData();
-}, []);
+    fetchData();
+  }, []);
 
   if (loading) {
     return <LoadingSpinner />;
