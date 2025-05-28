@@ -9,11 +9,10 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Logging in with:", { email, password });
-    // Add your auth logic here
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white dark:from-black dark:to-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white dark:from-black dark:to-gray-900">
       <form
         onSubmit={handleLogin}
         className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-md"
@@ -55,7 +54,9 @@ export default function LoginPage() {
           Login
         </button>
       </form>
+
+      {/* ✅ Tailwind test */}
+      <div className="text-red-500 mt-4">TEST</div>
     </div>
-	<div className="text-red-500">TEST</div>
   );
 }
