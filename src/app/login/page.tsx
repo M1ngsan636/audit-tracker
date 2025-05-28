@@ -17,6 +17,13 @@ export default function LoginPage() {
         onSubmit={handleLogin}
         className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-md"
       >
+	  <Image
+  src="/logo.png"
+  alt="Audit Tracker Logo"
+  width={100}
+  height={100}
+  className="mx-auto mb-4"
+/>
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Login to Audit Tracker
         </h2>
