@@ -53,7 +53,15 @@ export default function UserPage() {
     fetchData();
   }, []);
 
+  
+  const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
   if (loading) return <LoadingSpinner />;
+
 
   return (
     <div className="relative min-h-screen bg-gray-900 overflow-hidden">
