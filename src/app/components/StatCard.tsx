@@ -1,10 +1,6 @@
 const StatCard = ({ label, value, color }) => (
-  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-900 shadow">
-    <span className="text-gray-300">{label}</span>
-    <span className={`text-white font-bold px-3 py-1 rounded ${color}`}>
-      {value}
-    </span>
+  <div className={`p-4 rounded-xl shadow-md text-white ${color} cursor-pointer hover:opacity-80`}>
+    <div className="text-sm font-medium">{label}</div>
+    <div className="text-2xl font-bold">{value}</div>
   </div>
 );
-
-export default StatCard;
