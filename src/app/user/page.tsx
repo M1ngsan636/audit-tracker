@@ -54,9 +54,13 @@ export default function UserPage() {
   }, []);
 
   
-  const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+const LoadingSpinner = () => (
+  <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
+    <div className="relative w-20 h-20">
+      <div className="absolute inset-0 border-4 border-cyan-400 rounded-full animate-spin"></div>
+      <div className="absolute inset-2 border-4 border-transparent border-t-cyan-200 rounded-full animate-spin animation-delay-200"></div>
+    </div>
+    <p className="text-cyan-400 font-mono tracking-wider">LOADING DATA...</p>
   </div>
 );
 
