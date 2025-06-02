@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import StatCard from "@/components/StatCard";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 // ✅ Named logout component
 const LogoutButton = () => {
@@ -90,13 +91,13 @@ const GridOverlay = () => (
 const Header = () => (
   <header className="flex justify-between items-center">
     <div className="flex items-center space-x-4">
-      <div className="mb-4">
-        <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
-      </div>
-      <img 
+      <Image 
         src="/logo.png" 
         alt="Logo" 
-        className="w-10 h-10 rounded-full"
+        width={40} 
+        height={40} 
+        priority 
+        className="rounded-full"
       />
       <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
         HELLO
@@ -107,7 +108,6 @@ const Header = () => (
       <Link href="/user" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Home
       </Link>
-      {/* Uncomment if settings route is available */}
       {/* <Link href="/settings" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Settings
       </Link> */}
