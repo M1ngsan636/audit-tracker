@@ -5,16 +5,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import StatCard from "@/components/StatCard";
 import { useRouter } from "next/navigation";
-import LogoutButton from "@/components/LogoutButton";
 
-export default function LogoutButton() {
+// ✅ Named logout component
+const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = () => {
     // TODO: Clear user session/token here
     console.log("User logged out");
-    
-    // Redirect to login page
     router.push("/login");
   };
 
@@ -26,7 +24,7 @@ export default function LogoutButton() {
       Logout
     </button>
   );
-}
+};
 
 export default function UserPage() {
   const [userData, setUserData] = useState(null);
@@ -54,28 +52,18 @@ export default function UserPage() {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="relative min-h-screen bg-gray-900 overflow-hidden">
-      {/* Background elements */}
       <FloatingOrbs />
       <GridOverlay />
-      
-      {/* Main content */}
+
       <div className="container mx-auto px-4 py-8 relative z-10">
         <Header />
-        
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-          {/* User Profile Card */}
           <UserProfileCard user={userData} />
-          
-          {/* Stats Overview */}
           <StatsOverview stats={userData.auditStats} />
-          
-          {/* Recent Activity */}
           <RecentActivity />
         </div>
       </div>
@@ -83,7 +71,7 @@ export default function UserPage() {
   );
 }
 
-// Component: Floating Orbs Background
+// Background Orbs
 const FloatingOrbs = () => (
   <>
     <div className="fixed w-80 h-80 rounded-full bg-blue-500 opacity-10 blur-3xl -left-40 -top-40"></div>
@@ -91,22 +79,22 @@ const FloatingOrbs = () => (
   </>
 );
 
-// Component: Grid Overlay
+// Grid Overlay
 const GridOverlay = () => (
   <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
     backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
     backgroundSize: '40px 40px'
-  }}></div>
+  }} />
 );
 
-// Component: Loading Spinner
+// Loading Spinner
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen">
     <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
   </div>
 );
 
-// Component: Header
+// ✅ Updated Header: use working LogoutButton
 const Header = () => (
   <header className="flex justify-between items-center">
     <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
@@ -116,17 +104,16 @@ const Header = () => (
       <Link href="/user" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Home
       </Link>
-      <Link href="/settings" className="text-gray-300 hover:text-cyan-400 transition-colors">
+      {/* Remove or update Settings if not available */}
+      {/* <Link href="/settings" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Settings
-      </Link>
-      <button className="text-gray-300 hover:text-cyan-400 transition-colors">
-        Logout
-      </button>
+      </Link> */}
+      <LogoutButton />
     </nav>
   </header>
 );
 
-// Component: User Profile Card
+// User Profile Card
 const UserProfileCard = ({ user }) => (
   <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl">
     <div className="flex items-center space-x-4 mb-6">
@@ -138,7 +125,7 @@ const UserProfileCard = ({ user }) => (
         <p className="text-gray-400">{user.role}</p>
       </div>
     </div>
-    
+
     <div className="space-y-4">
       <div>
         <label className="block text-gray-400 text-sm mb-1">Email</label>
@@ -149,61 +136,38 @@ const UserProfileCard = ({ user }) => (
         <p className="text-white">{new Date(user.lastLogin).toLocaleString()}</p>
       </div>
     </div>
-    
-<Link 
-  href="/user/profile"
-  className="mt-6 w-full py-2 rounded-lg border border-cyan-400 text-cyan-400 hover:bg-cyan-900 transition-colors flex items-center justify-center"
->
-  <span>VIEW PROFILE</span>
-  <svg 
-    className="w-4 h-4 ml-2" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-  >
-    <path 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      strokeWidth={2} 
-      d="M9 5l7 7-7 7" 
-    />
-  </svg>
-</Link>
+
+    <Link
+      href="/user/profile"
+      className="mt-6 w-full py-2 rounded-lg border border-cyan-400 text-cyan-400 hover:bg-cyan-900 transition-colors flex items-center justify-center"
+    >
+      <span>VIEW PROFILE</span>
+      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </Link>
   </div>
 );
 
-// Component: Stats Overview
+// ✅ Stats Overview with links
 const StatsOverview = ({ stats }) => (
   <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl">
     <h3 className="text-xl font-semibold text-white mb-6">AUDIT STATS</h3>
-
     <div className="space-y-4">
       <Link href="/user/completed">
-        <StatCard 
-          label="Completed" 
-          value={stats.completed} 
-          color="bg-green-500" 
-        />
+        <StatCard label="Completed" value={stats.completed} color="bg-green-500" />
       </Link>
       <Link href="/user/pending">
-        <StatCard 
-          label="Pending" 
-          value={stats.pending} 
-          color="bg-yellow-500" 
-        />
+        <StatCard label="Pending" value={stats.pending} color="bg-yellow-500" />
       </Link>
       <Link href="/user/overdue">
-        <StatCard 
-          label="Overdue" 
-          value={stats.overdue} 
-          color="bg-red-500" 
-        />
+        <StatCard label="Overdue" value={stats.overdue} color="bg-red-500" />
       </Link>
     </div>
   </div>
 );
 
-// Component: Stat Card
+// Stat Card
 const StatCard = ({ label, value, color }) => (
   <div className="flex justify-between items-center p-4 rounded-lg bg-gray-700">
     <span className="text-gray-300">{label}</span>
@@ -213,21 +177,20 @@ const StatCard = ({ label, value, color }) => (
   </div>
 );
 
-// Component: Recent Activity
+// Recent Activity
 const RecentActivity = () => {
   const activities = [
     { id: 1, action: "Completed audit", target: "Project Phoenix", time: "2 hours ago" },
     { id: 2, action: "Assigned to", target: "Project Atlas", time: "1 day ago" },
     { id: 3, action: "Submitted report", target: "Project Hermes", time: "2 days ago" },
-	{ id: 4, action: "Submitted report", target: "Project Roro Jonggrang", time: "7 days ago" },
+    { id: 4, action: "Submitted report", target: "Project Roro Jonggrang", time: "7 days ago" },
   ];
 
   return (
     <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl lg:col-span-3">
       <h3 className="text-xl font-semibold text-white mb-6">RECENT ACTIVITY</h3>
-      
       <div className="space-y-4">
-        {activities.map(activity => (
+        {activities.map((activity) => (
           <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors">
             <div className="w-3 h-3 mt-1.5 rounded-full bg-cyan-400 flex-shrink-0"></div>
             <div className="flex-1">
@@ -239,7 +202,6 @@ const RecentActivity = () => {
           </div>
         ))}
       </div>
-      
       <button className="mt-6 text-cyan-400 hover:text-cyan-300 transition-colors flex items-center">
         View All Activity
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
