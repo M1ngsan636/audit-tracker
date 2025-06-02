@@ -1,5 +1,6 @@
 // components/AuditTable.tsx
 "use client";
+import AuditTable from "@/components/tables/AuditTable";
 
 interface AuditItem {
   id: string;
