@@ -87,24 +87,27 @@ const GridOverlay = () => (
   }} />
 );
 
-// Loading Spinner
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-  </div>
-);
-
-// ✅ Updated Header: use working LogoutButton
 const Header = () => (
   <header className="flex justify-between items-center">
-    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-      HELLO
-    </h1>
+    <div className="flex items-center space-x-4">
+      <div className="mb-4">
+        <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
+      </div>
+      <img 
+        src="/logo.png" 
+        alt="Logo" 
+        className="w-10 h-10 rounded-full"
+      />
+      <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+        HELLO
+      </h1>
+    </div>
+
     <nav className="flex space-x-4">
       <Link href="/user" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Home
       </Link>
-      {/* Remove or update Settings if not available */}
+      {/* Uncomment if settings route is available */}
       {/* <Link href="/settings" className="text-gray-300 hover:text-cyan-400 transition-colors">
         Settings
       </Link> */}
@@ -112,6 +115,7 @@ const Header = () => (
     </nav>
   </header>
 );
+
 
 // User Profile Card
 const UserProfileCard = ({ user }) => (
