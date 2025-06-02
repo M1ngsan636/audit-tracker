@@ -4,6 +4,29 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import StatCard from "@/components/StatCard";
+import { useRouter } from "next/navigation";
+import LogoutButton from "@/components/LogoutButton";
+
+export default function LogoutButton() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // TODO: Clear user session/token here
+    console.log("User logged out");
+    
+    // Redirect to login page
+    router.push("/login");
+  };
+
+  return (
+    <button
+      onClick={handleLogout}
+      className="text-gray-300 hover:text-cyan-400 transition-colors"
+    >
+      Logout
+    </button>
+  );
+}
 
 export default function UserPage() {
   const [userData, setUserData] = useState(null);
