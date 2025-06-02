@@ -1,6 +1,6 @@
-// components/AuditTable.tsx
-"use client";
-import AuditTable from "@/components/tables/AuditTable";
+// src/components/AuditTable.tsx
+import React from 'react';
+import { format } from 'date-fns';
 
 interface AuditItem {
   id: string;
@@ -45,7 +45,7 @@ export default function AuditTable({ audits, title }: { audits: AuditItem[], tit
                   </span>
                 </td>
                 <td className="px-4 py-3 text-gray-300">{audit.assignedTo}</td>
-                <td className="px-4 py-3 text-gray-300">{new Date(audit.lastUpdated).toLocaleString()}</td>
+                <td className="px-4 py-3 text-gray-300">{format(new Date(audit.lastUpdated), 'dd/MM/yyyy, HH:mm:ss')}</td>
                 <td className="px-4 py-3">
                   <button className="text-cyan-400 hover:text-cyan-300 mr-3">
                     View
