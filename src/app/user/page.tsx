@@ -86,7 +86,7 @@ const LoadingSpinner = () => (
 const Header = () => (
   <header className="flex justify-between items-center">
     <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-      DASHBOARD
+      HELLO
     </h1>
     <nav className="flex space-x-4">
       <Link href="/user" className="text-gray-300 hover:text-cyan-400 transition-colors">
