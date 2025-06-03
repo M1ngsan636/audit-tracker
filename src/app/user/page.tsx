@@ -38,7 +38,7 @@ export default function UserPage() {
         setUserData({
           name: "Suhardiman",
           email: "suhardiman@airasia.com",
-          role: "QA Auditor",
+          role: "CQA Auditor",
           lastLogin: "2023-11-15T14:30:00Z",
           auditStats: {
             completed: 12,
