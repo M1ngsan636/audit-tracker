@@ -1,14 +1,4 @@
-// next.config.ts
-import type { NextConfig } from 'next';
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
 
-const nextConfig: NextConfig = {
-  images: {
-    domains: ['example.com'], // Example domain for image optimization
-  },
-  env: {
-    customKey: 'my-value', // Custom environment variables
-  },
-  // Other valid options...
-};
-
-export default nextConfig;
+module.exports = nextConfig;

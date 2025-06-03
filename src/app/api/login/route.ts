@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'; // NEW
 import { NextRequest, NextResponse } from 'next/server';
 import { getSheetClient } from '@/lib/googleSheets';
 
-const SPREADSHEET_ID = 'your-spreadsheet-id';
+const SPREADSHEET_ID = '1isROfTyz7iWSHwIEr33R2z9xH9fwzRXwUcU3yg-Gaps';
 
 export async function POST(req: NextRequest) {
   try {
