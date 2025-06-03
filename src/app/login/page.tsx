@@ -8,10 +8,29 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Logging in with:", { email, password });
-  };
+const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      alert(`Welcome, ${data.user.username} (${data.user.role})!`);
+      // TODO: Save to session/cookie and redirect
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    alert('Something went wrong.');
+  }
+};
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-900 overflow-hidden">
