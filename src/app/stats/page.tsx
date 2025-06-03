@@ -1,9 +1,7 @@
 "use client";
 
-import StatsOverview from "@/components/StatsOverview"; // Adjust path if needed
-
+import StatsOverview from "@/components/StatsOverview";
 export default function StatsPage() {
-  // Dummy data for testing, replace with real API data later
   const stats = {
     completed: 23,
     pending: 12,

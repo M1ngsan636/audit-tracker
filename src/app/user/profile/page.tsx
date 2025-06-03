@@ -3,8 +3,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function ProfilePage() {
+function ProfilePage() {
   const [user, setUser] = useState({
     name: "Suhardiman",
     email: "suhardiman@airasia.com",
@@ -269,3 +270,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+export default ProfilePage;

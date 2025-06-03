@@ -106,8 +106,8 @@ const Header = () => (
       <Image 
         src="/logo.png" 
         alt="Logo" 
-        width={40} 
-        height={40} 
+        width={80} 
+        height={80} 
         priority 
         className="rounded-full"
       />
