@@ -1,40 +1,108 @@
 // src/app/user/profile/page.tsx
-"use client";
+'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-function ProfilePage() {
-  const [user, setUser] = useState({
-    name: "Suhardiman",
-    email: "suhardiman@airasia.com",
-    role: "QA Auditor",
-    department: "Quality Assurance",
-    joinDate: "2021-03-15",
-    avatar: "/default-avatar.png",
-    bio: "Specializing in compliance audits and process improvement for enterprise software systems."
-  });
+interface User {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+  department: string;
+  joinDate: string;
+  avatar: string;
+  bio: string;
+  skills: string[];
+}
 
+export default function ProfilePage() {
+  const [user, setUser] = useState<User | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [tempUser, setTempUser] = useState({ ...user });
+  const [tempUser, setTempUser] = useState<User | null>(null);
+  const router = useRouter();
 
-  const handleInputChange = (e) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('/api/user');
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        const userData = await response.json();
+        if (userData.success) {
+          setUser(userData.user);
+          setTempUser(userData.user);
+        } else {
+          alert(userData.message);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        alert('Failed to fetch user data');
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setTempUser(prev => ({ ...prev, [name]: value }));
+    setTempUser(prev => prev ? { ...prev, [name]: value } : null);
   };
 
-  const handleSave = () => {
-    setUser(tempUser);
-    setEditMode(false);
-    // Here you would typically call an API to save changes
+const handleSave = async () => {
+  if (tempUser) {
+    try {
+      const response = await fetch('/api/user/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: tempUser.name,
+          email: tempUser.email,
+          role: tempUser.role,
+          department: tempUser.department,
+          bio: tempUser.bio,
+          skills: tempUser.skills.join(','),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update user data');
+      }
+
+      const result = await response.json();
+      if (result.success) {
+        setUser(tempUser);
+        setEditMode(false);
+        alert('Profile updated successfully');
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      alert('Failed to update user data');
+    }
+  }
+};
+  const handleLogout = () => {
+    document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    router.push('/login');
   };
+
+  if (!user || !tempUser) {
+    return (
+      <div className="relative min-h-screen bg-gray-900 overflow-hidden flex items-center justify-center">
+        <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-gray-900 overflow-hidden">
-      {/* Background elements */}
-      <div className="fixed w-80 h-80 rounded-full bg-blue-500 opacity-10 blur-3xl -left-40 -top-40"></div>
-      <div className="fixed w-96 h-96 rounded-full bg-purple-500 opacity-10 blur-3xl -right-60 bottom-20"></div>
+      {/* Floating orbs background */}
+      <div className="fixed w-80 h-80 rounded-full bg-blue-500 opacity-10 blur-3xl -left-40 -top-40 animate-float"></div>
+      <div className="fixed w-96 h-96 rounded-full bg-purple-500 opacity-10 blur-3xl -right-60 bottom-20 animate-float animation-delay-2000"></div>
       
       {/* Grid overlay */}
       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
@@ -42,11 +110,13 @@ function ProfilePage() {
         backgroundSize: '40px 40px'
       }}></div>
 
-      {/* Main content container */}
+      {/* Main content */}
       <div className="container mx-auto px-4 py-8 relative z-10">
-        {/* Header with back button */}
-        <div className="flex items-center justify-between mb-8">
-          <Link href="/user" className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors">
+        <div className="flex justify-between items-center mb-8">
+          <Link 
+            href="/user" 
+            className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -54,24 +124,30 @@ function ProfilePage() {
           </Link>
           
           <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-            PROFILE SETTINGS
+            USER PROFILE
           </h1>
           
-          <div className="w-24"></div> {/* Spacer for alignment */}
+          <button 
+            onClick={handleLogout}
+            className="text-gray-300 hover:text-cyan-400 transition-colors"
+          >
+            Logout
+          </button>
         </div>
 
-        {/* Profile grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column - Profile card */}
           <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl">
             <div className="flex flex-col items-center mb-6">
               <div className="relative mb-4">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center overflow-hidden">
-                  {user.avatar ? (
-                    <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-4xl font-bold text-white">{user.name.charAt(0)}</span>
-                  )}
+                  <Image
+                    src={user.avatar || '/default-avatar.png'}
+                    alt="Avatar"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 {editMode && (
                   <button className="absolute bottom-0 right-0 bg-gray-700 p-2 rounded-full border border-cyan-400 hover:bg-gray-600 transition-colors">
@@ -83,36 +159,47 @@ function ProfilePage() {
                 )}
               </div>
               
-              <h2 className="text-2xl font-semibold text-white text-center">
-                {editMode ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={tempUser.name}
-                    onChange={handleInputChange}
-                    className="bg-gray-700 text-white text-center px-2 py-1 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  />
-                ) : (
-                  user.name
-                )}
-              </h2>
+              {editMode ? (
+                <input
+                  type="text"
+                  name="name"
+                  value={tempUser.name}
+                  onChange={handleInputChange}
+                  className="bg-gray-700 text-white text-center px-3 py-2 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xl font-semibold mb-1 w-full"
+                />
+              ) : (
+                <h2 className="text-xl font-semibold text-white text-center">{user.name}</h2>
+              )}
               
-              <p className="text-gray-400 text-center">
-                {editMode ? (
-                  <input
-                    type="text"
-                    name="role"
-                    value={tempUser.role}
-                    onChange={handleInputChange}
-                    className="bg-gray-700 text-gray-400 text-center px-2 py-1 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 mt-1 w-full"
-                  />
-                ) : (
-                  user.role
-                )}
-              </p>
+              {editMode ? (
+                <input
+                  type="text"
+                  name="role"
+                  value={tempUser.role}
+                  onChange={handleInputChange}
+                  className="bg-gray-700 text-gray-400 text-center px-3 py-1 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 mt-1 w-full"
+                />
+              ) : (
+                <p className="text-gray-400 text-center">{user.role}</p>
+              )}
             </div>
             
             <div className="space-y-4">
+              <div>
+                <label className="block text-gray-400 text-sm mb-1">Email</label>
+                {editMode ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={tempUser.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
+                ) : (
+                  <p className="text-white">{user.email}</p>
+                )}
+              </div>
+              
               <div>
                 <label className="block text-gray-400 text-sm mb-1">Department</label>
                 {editMode ? (
@@ -131,21 +218,6 @@ function ProfilePage() {
               <div>
                 <label className="block text-gray-400 text-sm mb-1">Member Since</label>
                 <p className="text-white">{new Date(user.joinDate).toLocaleDateString()}</p>
-              </div>
-              
-              <div>
-                <label className="block text-gray-400 text-sm mb-1">Email</label>
-                {editMode ? (
-                  <input
-                    type="email"
-                    name="email"
-                    value={tempUser.email}
-                    onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  />
-                ) : (
-                  <p className="text-white">{user.email}</p>
-                )}
               </div>
             </div>
             
@@ -195,9 +267,14 @@ function ProfilePage() {
             <h3 className="text-xl font-semibold text-white mt-8 mb-4">SKILLS</h3>
             
             <div className="flex flex-wrap gap-2">
-              {['Quality Assurance', 'Compliance', 'Process Improvement', 'Automation', 'Risk Management'].map((skill) => (
-                <span key={skill} className="px-3 py-1 bg-gray-700 text-cyan-400 rounded-full text-sm">
+              {user.skills.map((skill, index) => (
+                <span key={index} className="px-3 py-1 bg-gray-700 text-cyan-400 rounded-full text-sm">
                   {skill}
+                  {editMode && (
+                    <button className="ml-1 text-gray-400 hover:text-red-400">
+                      ×
+                    </button>
+                  )}
                 </span>
               ))}
               
@@ -206,13 +283,13 @@ function ProfilePage() {
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  Add
+                  Add Skill
                 </button>
               )}
             </div>
           </div>
 
-          {/* Right column - Security and Preferences */}
+          {/* Right column - Account Settings */}
           <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl">
             <h3 className="text-xl font-semibold text-white mb-6">ACCOUNT SETTINGS</h3>
             
@@ -270,5 +347,3 @@ function ProfilePage() {
     </div>
   );
 }
-
-export default ProfilePage;

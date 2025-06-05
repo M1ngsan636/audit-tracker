@@ -3,10 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+const router = useRouter();
 
 const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -22,7 +25,8 @@ const handleLogin = async (e: React.FormEvent) => {
 
     if (res.ok && data.success) {
       alert(`Welcome, ${data.user.username} (${data.user.role})!`);
-      // TODO: Save to session/cookie and redirect
+      // Redirect to user dashboard or protected page
+      router.push("/user/profile"); // Change this if your route is different
     } else {
       alert(data.message || 'Login failed');
     }
