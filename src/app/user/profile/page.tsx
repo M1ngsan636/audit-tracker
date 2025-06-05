@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -267,16 +266,16 @@ const handleSave = async () => {
             <h3 className="text-xl font-semibold text-white mt-8 mb-4">SKILLS</h3>
             
             <div className="flex flex-wrap gap-2">
-              {user.skills.map((skill, index) => (
-                <span key={index} className="px-3 py-1 bg-gray-700 text-cyan-400 rounded-full text-sm">
-                  {skill}
-                  {editMode && (
-                    <button className="ml-1 text-gray-400 hover:text-red-400">
-                      ×
-                    </button>
-                  )}
-                </span>
-              ))}
+				{Array.isArray(user.skills) ? user.skills.map((skill, index) => (
+				  <span key={index} className="px-3 py-1 bg-gray-700 text-cyan-400 rounded-full text-sm">
+					{skill}
+					{editMode && (
+					  <button className="ml-1 text-gray-400 hover:text-red-400">
+						×
+					  </button>
+					)}
+				  </span>
+				)) : null}
               
               {editMode && (
                 <button className="px-3 py-1 bg-gray-700 text-gray-400 hover:text-cyan-400 rounded-full text-sm border border-dashed border-gray-600 flex items-center">

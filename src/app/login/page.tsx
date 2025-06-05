@@ -101,7 +101,7 @@ const handleLogin = async (e: React.FormEvent) => {
         </button>
 
         <div className="text-center text-gray-400 text-sm">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/register" className="text-cyan-400 hover:text-cyan-300 transition-colors">
             Register here
           </Link>

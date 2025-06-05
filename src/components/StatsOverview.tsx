@@ -1,5 +1,5 @@
 // src/components/StatsOverview.tsx
-import { StatCard } from './StatCard';
+import StatCard from './StatCard'
 
 const StatsOverview = ({ stats }) => (
   <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm bg-opacity-50 shadow-2xl">

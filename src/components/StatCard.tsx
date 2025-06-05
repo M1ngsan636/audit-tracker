@@ -5,4 +5,6 @@ const StatCard: React.FC = () => {
   return <div>Stat Card</div>;
 };
 
-export default StatCard;
+export default function StatCard(props) {
+  // or whatever component you're using
+}
